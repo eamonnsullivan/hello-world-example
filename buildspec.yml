@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+    commands:
+      - cd $HOME
+      - curl -O https://download.clojure.org/install/linux-install-1.10.1.763.sh; chmod +x linux-install-1.10.1.763.sh; ./linux-install-1.10.1.763.sh
+      - cd $CODEBUILD_SRC_DIR
+  pre_build:
+    commands:
+      - echo "\nContents of the base directory:\n"
+      - ls -al
+      - echo
+      - echo Test started on `date`
+      - clojure -X:test
+  build:
+    commands:
+      - echo Entering build phase...
+      - echo Build started on `date`
+      - clojure -Spom
+      - clojure -X:uberjar
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - ./hello-world-example.jar
