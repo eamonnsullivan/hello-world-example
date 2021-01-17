@@ -14,7 +14,7 @@ phases:
       - ls -al
       - echo
       - echo Test started on `date`
-      - clojure -X:test
+      - clojure -M:test:runner
   build:
     commands:
       - echo Entering build phase...
